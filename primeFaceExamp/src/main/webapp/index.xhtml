@@ -9,13 +9,12 @@
     <h:body>
         <b>Insertar Categoria</b> <br/><br/>
         <h:form>
-            <p:inputText/> &nbsp;
-            <p:commandButton value="add"/> <br/><br/>
-            <!--            <p:growl id="msgs" showDetail="true" />
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <p:outputLabel for="inline" value="Inline:" />-->
-            <h:panelGrid columns="2" cellpadding="5" title="Fecha">
-                <p:calendar id="inline" value="#{calendarView.date1}" mode="inline" />
+            <p:inputText id="nombCateg" value="#{categoriaController.categoria.nombre}"/> &nbsp;
+            <p:commandButton value="add" actionListener="#{categoriaController.registrar()}" update="nombCateg"/> <br/><br/>
+            <!--            <p:growl id="msgs" showDetail="true" />-->
+            <h:panelGrid columns="2" cellpadding="5">
+                <p:outputLabel for="inline" value="Inline:" />
+                <p:calendar id="inline" value="#{categoriaController.dateCalendar}" mode="inline" />
             </h:panelGrid>
         </h:form>
     </h:body>
