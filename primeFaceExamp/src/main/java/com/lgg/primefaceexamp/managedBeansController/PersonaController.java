@@ -20,6 +20,7 @@ import javax.faces.bean.ViewScoped;
 public class PersonaController {
     private List<Persona> personas = new ArrayList<>();
     private Persona persona = new Persona();
+    private int cant;
 
     public List<Persona> getPersonas() {
         return personas;
@@ -38,11 +39,35 @@ public class PersonaController {
     }
     
     public void registarPersona(){
+        persona.setCodigo(++cant);
         personas.add(persona);
         persona = new Persona();
     }
     
     public List<Persona> listarPersonas(){
         return personas;
+    }
+    
+    public void buscarPersona(Persona per){
+        for(Persona person : personas){
+            if(person.getCodigo()== per.getCodigo())
+                this.persona = person;
+        }
+    }
+    
+    public void modificarPersona(){
+        for(Persona person : personas){
+            if(person.getCodigo()== persona.getCodigo())
+                person = persona;
+            persona = new Persona();
+        }
+    }
+    
+    public void eliminarPersona(Persona per){
+        personas.remove(per);
+    }
+    
+    public void limpiarPersona(){
+        persona = new Persona();
     }
 }

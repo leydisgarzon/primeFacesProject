@@ -15,29 +15,50 @@ and open the template in the editor.
     <h:body>
         <b>Insertar Categoria</b> <br/><br/>
         <p:growl id="msj" showDetail="true"/>
-        <h:form>
+        <h:form id="main">
             <p:outputLabel value="Nombre" for="nombPersona"/> &nbsp;
             <p:inputText id="nombPersona" value="#{personaController.persona.nombre}"/> <br/><br/>
-            
+
             <p:outputLabel value="Sexo" for="sexoPersona"/> &nbsp;
             <p:selectOneMenu id="sexoPersona" value="#{personaController.persona.sexo}">
                 <f:selectItem itemLabel="Masculino" itemValue="M"/>
                 <f:selectItem itemLabel="Femenino" itemValue="F"/>
             </p:selectOneMenu><br/><br/>
-            
-            <p:commandButton value="add" actionListener="#{personaController.registarPersona()}" update="tableList"/> 
-            
+
+            <p:commandButton value="add" actionListener="#{personaController.registarPersona()}" update="tableList"/> <br/><br/>
+
             <p:dataTable id="tableList" value="#{personaController.personas}" var="pers">
+                <p:column headerText="Codigo">
+                    <p:outputLabel value="#{pers.codigo}"/>
+                </p:column>
                 <p:column headerText="Nombre">
                     <p:outputLabel value="#{pers.nombre}"/>
                 </p:column>
                 <p:column headerText="Sexo">
                     <p:outputLabel value="#{pers.sexo}"/>
                 </p:column>
-                 <p:column headerText="Modificar">
-                     <p:commandLink value="Modificar"/>
+                <p:column headerText="Modificar">
+                    <p:commandLink value="Modificar" actionListener="#{personaController.buscarPersona(pers)}" oncomplete="PF('wdlgModifica').show();" update=":dlgModifica"/>
+                </p:column>
+                <p:column headerText="Eliminar">
+                    <p:commandLink value="Eliminar" actionListener="#{personaController.eliminarPersona(pers)}" update="tableList"/>
                 </p:column>
             </p:dataTable>
         </h:form>
+        
+        <p:dialog header="Modificar datos" widgetVar="wdlgModifica" id="dlgModifica" closable="false">
+            <h:form>
+                <p:outputLabel value="Nombre"/> &nbsp;
+                <p:inputText  value="#{personaController.persona.nombre}"/> 
+
+                <p:outputLabel value="Sexo" /> &nbsp;
+                <p:selectOneMenu value="#{personaController.persona.sexo}">
+                    <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                    <f:selectItem itemLabel="Femenino" itemValue="F"/>
+                </p:selectOneMenu><br/><br/>
+                <p:commandButton value="modificar" actionListener="#{personaController.modificarPersona()}" oncomplete="PF('wdlgModifica').hide();" update=":main:tableList"/>
+                <p:commandButton value="cancelar" immediate="true" oncomplete="PF('wdlgModifica').hide();" actionListener="#{personaController.limpiarPersona()}"/>
+            </h:form>
+        </p:dialog>
     </h:body>
 </html>
